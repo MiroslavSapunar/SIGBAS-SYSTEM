@@ -3,6 +3,9 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 
+// import fiubaLOGO from '../web/public/FIUBA.jpg'
+
+
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
@@ -20,27 +23,48 @@ export default function Home() {
             <div
               className="relative h-64 overflow-hidden rounded-lg sm:h-80 lg:order-last lg:h-full"
             >
-              <img
-                alt="SIGBAS"
-                src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+              {/* <img
+                alt="FIUBA"
+                src=""
                 className="absolute inset-0 h-full w-full object-cover"
+              /> */}
+
+                <Image
+                src="/FIUBA.jpg"
+                alt="FIUBA Logo"
+                className="absolute inset-0 h-full w-full object-cover"
+                fill
+                // width={100}
+                // height={24}
+                priority
               />
+              {/* <Image
+                alt='FIUBA_LOGO'
+                src={fiubaLOGO}
+                fill
+                sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
+              /> */}
+
             </div>
 
             <div className="lg:py-24">
-              <h2 className="text-3xl font-bold sm:text-4xl">Grow your audience</h2>
+              <h3 className="text-3xl font-bold sm:text-4xl">Sistema de Gestión Informática</h3>
+              <h2 className="text-3xl font-bold sm:text-4xl">SIGBAS</h2>
 
               <p className="mt-4 text-gray-600">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut qui hic
-                atque tenetur quis eius quos ea neque sunt, accusantium soluta minus
-                veniam tempora deserunt? Molestiae eius quidem quam repellat.
+                Secretaria de Inclusión, Género, Bienestar y Articulación Social
+              </p>
+              <p className="mt-1 text-gray-600">
+                Facultad de Ingeniería de la Universidad de Buenos Aires
               </p>
 
               <a
                 href="#"
-                className="mt-8 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-8 py-3 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+                className="mt-8 inline-flex items-center rounded border border-blue-600 bg-blue-600 px-8 py-3 text-white hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
               >
-                <span className="text-sm font-medium"> Get Started </span>
+                <span className="text-sm font-medium"> Ingresar </span>
 
                 <svg
                   className="ml-3 h-5 w-5"
