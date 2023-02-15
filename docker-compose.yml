@@ -1,0 +1,20 @@
+services:
+
+  web:
+    container_name: mc-central-servicios-web
+    image: node:16.19-buster-slim
+    working_dir: /usr/src/app
+    command: bash -c "yarn install && yarn run dev"
+    volumes:
+      - ./web:/usr/src/app
+    # environment:      
+    #   - NEXT_PUBLIC_STRAPI_URL_FRONT=${NEXT_PUBLIC_STRAPI_URL_FRONT}
+    #   - STRAPI_URL_BACK=${STRAPI_URL_BACK}
+    expose:
+      - "3000"
+    ports: 
+      - 3000:3000
+    # networks: 
+    #   - central-services
+    # depends_on: 
+    #   - strapi
