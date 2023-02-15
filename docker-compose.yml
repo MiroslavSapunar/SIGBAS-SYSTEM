@@ -1,8 +1,9 @@
 services:
 
   web:
-    container_name: mc-central-servicios-web
+    container_name: SIGBAS-WEB
     image: node:16.19-buster-slim
+    restart: always
     working_dir: /usr/src/app
     command: bash -c "yarn install && yarn run dev"
     volumes:
@@ -18,3 +19,14 @@ services:
     #   - central-services
     # depends_on: 
     #   - strapi
+
+  db:
+    image: mariadb:10.7.8-focal
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: MARIADB_DATABASE=${MARIADB_DATABASE}
+    expose:
+      - "3306"
+    ports: 
+      - 3306:3306
