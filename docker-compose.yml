@@ -15,18 +15,23 @@ services:
       - "3000"
     ports: 
       - 3000:3000
-    # networks: 
-    #   - central-services
-    # depends_on: 
-    #   - strapi
+    depends_on: 
+      - db
+    links:
+      - "db:database"
 
   db:
+    container_name: SIGBAS-DB
     image: mariadb:10.7.8-focal
-    restart: always
+    restart: unless-stopped
     environment:
-      MARIADB_ROOT_PASSWORD: MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
-      MARIADB_DATABASE: MARIADB_DATABASE=${MARIADB_DATABASE}
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MARIADB_DATABASE=${MARIADB_DATABASE}
     expose:
       - "3306"
     ports: 
       - 3306:3306
+    volumes:
+        - ./datadb:/var/lib/mysql
+    #   - ./data_db:/var/lib/mysql
+
