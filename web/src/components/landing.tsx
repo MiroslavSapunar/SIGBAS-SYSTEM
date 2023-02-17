@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Login from 'src/components/login'
+import LoginForm from 'src/components/login'
 
 
 const Landing: React.FC = () =>
@@ -30,7 +30,7 @@ const Landing: React.FC = () =>
                         <p className="mt-1 text-gray-800">
                             Facultad de Ingeniería de la Universidad de Buenos Aires
                         </p>
-                        <Login />
+                        <LoginForm />
 
                         {/* <Link href="/login"
                   className="mt-8 inline-flex items-center rounded border border-sky-600 bg-sky-600 px-8 py-3 text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500"
