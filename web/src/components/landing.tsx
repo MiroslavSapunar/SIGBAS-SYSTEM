@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import LoginForm from 'src/components/login'
 
+import LoginForm from '@/components/loginForm'
 
 const Landing: React.FC = () =>
     <>
@@ -31,27 +31,6 @@ const Landing: React.FC = () =>
                             Facultad de Ingeniería de la Universidad de Buenos Aires
                         </p>
                         <LoginForm />
-
-                        {/* <Link href="/login"
-                  className="mt-8 inline-flex items-center rounded border border-sky-600 bg-sky-600 px-8 py-3 text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500"
-                >
-                  <span className="text-sm font-medium"> Ingresar </span>
-  
-                  <svg
-                    className="ml-3 h-5 w-5"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
-                  </svg>
-                </Link> */}
                     </div>
                 </div>
             </div>
