@@ -1,5 +1,3 @@
-// components/layout.js
-
 import Head from "next/head"
 
 interface Props {
