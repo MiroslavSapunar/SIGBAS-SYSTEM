@@ -3,19 +3,46 @@ import { useState } from "react"
 import { MdAlternateEmail, MdPassword } from 'react-icons/md';
 
 interface FormData {
-  user: string,
+  username: string,
   pass: string
 }
 
 export default function LoginForm() {
 
-  const [form, setForm] = useState<FormData>({ user: '', pass: '' })
+  const [form, setForm] = useState<FormData>({ username: '', pass: '' })
+
+  async function findUsers() {
+    try {
+      fetch('http://localhost:3000/api/findMany', {
+        method: 'GET'
+      }).then(res => console.log(res))
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+  async function createUser(data: FormData) {
+    try {
+      fetch('http://localhost:3000/api/create', {
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST'
+      }).then(() => setForm({ username: '', pass: '' }))
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
 
   return (
     <>
       <form onSubmit={e => {
         e.preventDefault()
-        console.log("HIII")
+        // findUsers()
+        createUser(form)
+        // console.log("HIII")
       }}
         className="mt-6 mb-0 space-y-4 rounded-lg p-8 shadow-2xl">
         <p className="text-lg font-medium">Ingreso con credenciales</p>
@@ -27,8 +54,8 @@ export default function LoginForm() {
             <input
               type="email"
               id="email"
-              value={form.user}
-              onChange={e => setForm({ ...form, user: e.target.value })}
+              value={form.username}
+              onChange={e => setForm({ ...form, username: e.target.value })}
               placeholder="Usuario"
               className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm "
             />

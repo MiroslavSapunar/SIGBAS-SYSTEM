@@ -11,13 +11,13 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  username  String    @unique @db.VarChar(255)
-  pass      String    @db.VarChar(255)
-  createtAd DateTime  @default(now()) @db.Timestamp(6)
-  update    DateTime  @updatedAt @db.Timestamp(6)
-  role      String    @default("student")
-  student   Student[]
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  pass      String   @db.VarChar(255)
+  createtAd DateTime @default(now()) @db.Timestamp(6)
+  update    DateTime @updatedAt @db.Timestamp(6)
+  role      String   @default("student")
+  // student   Student[]
 }
 
 model Student {
@@ -27,6 +27,6 @@ model Student {
   padron   String @unique @db.VarChar(255)
   carrerra String @unique @db.VarChar(255)
   plan     String @unique @db.VarChar(255)
-  userID   Int
-  user     User   @relation(fields: [userID], references: [id])
+  userID   String
+  // user     User   @relation(fields: [userID], references: [id])
 }
