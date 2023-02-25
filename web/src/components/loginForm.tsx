@@ -13,7 +13,7 @@ export default function LoginForm() {
 
   async function findUsers() {
     try {
-      fetch('http://localhost:3000/api/findMany', {
+      fetch('http://localhost:4000/api/findMany', {
         method: 'GET'
       }).then(res => console.log(res))
     } catch (error) {
@@ -23,7 +23,7 @@ export default function LoginForm() {
   }
   async function createUser(data: FormData) {
     try {
-      fetch('http://localhost:3000/api/create', {
+      fetch('http://localhost:4000/api/create', {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -41,8 +41,8 @@ export default function LoginForm() {
       <form onSubmit={e => {
         e.preventDefault()
         // findUsers()
+        console.log("HIII")
         createUser(form)
-        // console.log("HIII")
       }}
         className="mt-6 mb-0 space-y-4 rounded-lg p-8 shadow-2xl">
         <p className="text-lg font-medium">Ingreso con credenciales</p>
