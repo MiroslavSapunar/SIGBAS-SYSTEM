@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -16,7 +16,8 @@ model User {
   pass      String   @db.VarChar(255)
   createtAd DateTime @default(now()) @db.Timestamp(6)
   update    DateTime @updatedAt @db.Timestamp(6)
-  role      String   @default("student")
+  role      String   @default("none")
+  firstTime Boolean  @default(true)
   // student   Student[]
 }
 
