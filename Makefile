@@ -1,8 +1,24 @@
 up:
+	docker compose up
+
+dup:
 	docker compose up -d
 
 stop:
 	docker compose stop
 
-mariadb:
-	docker compose exec db bash
+down:
+	docker compose down
+
+node:
+	docker compose exec web bash
+
+migrate:
+	docker compose exec web bash -c "npx prisma migrate dev --name init"
+
+generate:
+	docker compose exec web bash -c "npx prisma generate"
+
+db:
+	docker compose exec db bash -c "psql -d SIGBAS -U admin -W"
+
