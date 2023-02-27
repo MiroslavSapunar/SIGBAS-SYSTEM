@@ -11,7 +11,7 @@ down:
 	docker compose down
 
 node:
-	docker compose exec web bash
+	docker compose exec -it web bash
 
 migrate:
 	docker compose exec web bash -c "npx prisma migrate dev --name init"
