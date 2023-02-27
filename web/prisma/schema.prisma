@@ -15,19 +15,46 @@ model User {
   username  String   @unique
   pass      String   @db.VarChar(255)
   createtAd DateTime @default(now()) @db.Timestamp(6)
+  createBy  String
   update    DateTime @updatedAt @db.Timestamp(6)
+  updateBy  String
   role      String   @default("none")
   firstTime Boolean  @default(true)
   // student   Student[]
 }
 
 model Student {
-  id       Int    @id @default(autoincrement())
-  name     String @unique @db.VarChar(255)
-  surname  String @unique @db.VarChar(255)
-  padron   String @unique @db.VarChar(255)
-  carrerra String @unique @db.VarChar(255)
-  plan     String @unique @db.VarChar(255)
-  userID   String
+  id               Int    @id @default(autoincrement())
+  name             String @unique @db.VarChar(255)
+  surname          String @unique @db.VarChar(255)
+  gender           String @unique @db.VarChar(255)
+  academicRegister String @unique @db.VarChar(255)
+  careerCurriculum String @unique @db.VarChar(255)
+  academicCredits  String @unique @db.VarChar(255)
+  userID           String
   // user     User   @relation(fields: [userID], references: [id])
+}
+
+model Organization {
+  id           Int    @id @default(autoincrement())
+  cuit         String @unique @db.VarChar(255)
+  bussinesName String @unique @db.VarChar(255)
+  fantasyName  String @unique @db.VarChar(255)
+}
+
+model Company {
+  id   Int    @id @default(autoincrement())
+  cuit String @unique @db.VarChar(255)
+}
+
+model FrameworkAgreement {
+  id               Int     @id @default(autoincrement())
+  resolutionNumber String  @unique @db.VarChar(255)
+  hasDue           Boolean @default(false)
+}
+
+model IndividualAgreement {
+  id               Int     @id @default(autoincrement())
+  resolutionNumber String  @unique @db.VarChar(255)
+  hasDue           Boolean @default(false)
 }
