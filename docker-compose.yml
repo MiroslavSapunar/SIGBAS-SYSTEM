@@ -2,7 +2,7 @@ services:
 
   web:
     container_name: web
-    image: node:18.14-buster-slim
+    image: node:lts-slim
     restart: unless-stopped
     working_dir: /usr/src/app
     command: bash -c "yarn install && yarn run dev"
@@ -12,15 +12,15 @@ services:
     #   - NEXT_PUBLIC_STRAPI_URL_FRONT=${NEXT_PUBLIC_STRAPI_URL_FRONT}
     #   - STRAPI_URL_BACK=${STRAPI_URL_BACK}
     ports: 
-      - "4000:3000"
-      - "4001:5555"
+      - "3000:3000"
+      # - "4001:5555"
     depends_on: 
-      - db
+      - postgres
     networks:
       - sigbas
 
-  db:
-    container_name: db
+  postgres:
+    container_name: postgres
     image: postgres:15.2-alpine3.17
     restart: unless-stopped
     environment:
