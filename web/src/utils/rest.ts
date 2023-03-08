@@ -1,8 +1,17 @@
-const next_url_public = process.env.NEXT_FRONT_URL_PUBLIC
-const next_url_build = process.env.NEXT_FRONT_URL_BUILD
-const prisma_url_public = process.env.NEXT_PRISMA_URL_PUBLIC
-const prisma_url_build = process.env.NEXT_PRISMA_URL_BUILD
+const next_url_public = process.env.NEXT_PUBLIC_WEB_URL_PUBLIC
+const next_url_build = process.env.WEB_URL_BUILD
+const prisma_url_public = process.env.NEXT_PUBLIC_PRISMA_URL_FRONT
+const prisma_url_build = process.env.PRISMA_URL_BACK
 
+export const url = {
+    next_public: next_url_public,
+    prisma_public: prisma_url_public
+}
+
+export const url_build = {
+    next_buil: next_url_build,
+    prisma_build: prisma_url_build
+}
 
 // export const options = {
 //     strapi: {

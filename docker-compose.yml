@@ -8,12 +8,16 @@ services:
     command: bash -c "yarn install && yarn run dev"
     volumes:
       - ./web:/usr/src/app
-    # environment:      
+    environment:      
+      - NEXT_PUBLIC_WEB_URL_PUBLIC=${NEXT_PUBLIC_WEB_URL_PUBLIC}
+      - WEB_URL_BUILD=${WEB_URL_BUILD}
+      - NEXT_PUBLIC_PRISMA_URL_FRONT=${NEXT_PUBLIC_PRISMA_URL_FRONT}
+      - PRISMA_URL_BACK=${PRISMA_URL_BACK}
     #   - NEXT_PUBLIC_STRAPI_URL_FRONT=${NEXT_PUBLIC_STRAPI_URL_FRONT}
     #   - STRAPI_URL_BACK=${STRAPI_URL_BACK}
     ports: 
       - "3000:3000"
-      # - "4001:5555"
+      - "5555:5555"
     depends_on: 
       - postgres
     networks:
