@@ -5,7 +5,6 @@ interface Props {
 }
 
 const Layout: React.FC<Props> = ({ children }) =>
-
     <>
         <Head>
             <title>Sistema de Gestión SIGBAS</title>
@@ -17,6 +16,5 @@ const Layout: React.FC<Props> = ({ children }) =>
             {children}
         </main>
     </>
-
 
 export default Layout

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import LoginForm from '@/components/loginForm'
+import LoginForm from '@/components/Landing/loginForm'
 
 const Landing: React.FC = () =>
     <>

@@ -1,6 +1,7 @@
 import { useState } from "react"
-
 import { MdAlternateEmail, MdPassword } from 'react-icons/md';
+
+import { url, url_build } from '../../utils/rest'
 
 interface FormData {
   username: string,
@@ -11,19 +12,9 @@ export default function LoginForm() {
 
   const [form, setForm] = useState<FormData>({ username: '', pass: '' })
 
-  async function findUsers() {
-    try {
-      fetch('http://localhost:4000/api/findMany', {
-        method: 'GET'
-      }).then(res => console.log(res))
-    } catch (error) {
-      console.log(error)
-    }
-
-  }
   async function createUser(data: FormData) {
     try {
-      fetch('http://localhost:4000/api/create', {
+      fetch(url.next_public + '/api/create', {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
@@ -40,8 +31,6 @@ export default function LoginForm() {
     <>
       <form onSubmit={e => {
         e.preventDefault()
-        // findUsers()
-        console.log("HIII")
         createUser(form)
       }}
         className="mt-6 mb-0 space-y-4 rounded-lg p-8 shadow-2xl">
@@ -53,7 +42,7 @@ export default function LoginForm() {
           <div className="relative mt-1">
             <input
               type="email"
-              id="email"
+              id="username"
               value={form.username}
               onChange={e => setForm({ ...form, username: e.target.value })}
               placeholder="Usuario"
@@ -72,7 +61,7 @@ export default function LoginForm() {
           <div className="relative mt-1">
             <input
               type="password"
-              id="password"
+              id="pass"
               placeholder="* * * * *"
               value={form.pass}
               onChange={e => setForm({ ...form, pass: e.target.value })}

@@ -1,4 +1,4 @@
-import LandingContent from 'src/components/landing'
+import LandingContent from '@/components/Landing/landing'
 
 const Home: React.FC = () =>
   <>
