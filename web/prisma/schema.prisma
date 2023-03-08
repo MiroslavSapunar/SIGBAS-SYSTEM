@@ -11,50 +11,143 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  pass      String   @db.VarChar(255)
-  createtAd DateTime @default(now()) @db.Timestamp(6)
-  createBy  String
-  update    DateTime @updatedAt @db.Timestamp(6)
-  updateBy  String
-  role      String   @default("none")
-  firstTime Boolean  @default(true)
-  // student   Student[]
+  id             Int           @id @default(autoincrement())
+  username       String        @unique
+  pass           String        @db.VarChar(255)
+  createtAd      DateTime      @default(now()) @db.Timestamp(6)
+  update         DateTime      @updatedAt @db.Timestamp(6)
+  isWorker       Boolean       @default(false)
+  isAuthority    Boolean       @default(false)
+  isStudent      Boolean       @default(false)
+  student        Student?
+  isOrganization Boolean       @default(false)
+  organization   Organization?
+  isCompany      Boolean       @default(false)
+  company        Company?
 }
 
 model Student {
-  id               Int    @id @default(autoincrement())
-  name             String @unique @db.VarChar(255)
-  surname          String @unique @db.VarChar(255)
-  gender           String @unique @db.VarChar(255)
-  academicRegister String @unique @db.VarChar(255)
-  careerCurriculum String @unique @db.VarChar(255)
-  academicCredits  String @unique @db.VarChar(255)
-  userID           String
-  // user     User   @relation(fields: [userID], references: [id])
+  id                   Int                   @id @default(autoincrement())
+  name                 String                @db.VarChar(255)
+  surname              String                @db.VarChar(255)
+  gender               String                @db.VarChar(255)
+  email                String                @db.VarChar(255)
+  telephone            String                @db.VarChar(255)
+  birthday             String                @db.VarChar(255)
+  dni                  String                @db.VarChar(255)
+  academicRegister     String                @db.VarChar(255) // padron
+  // Carrers              Carrer[] // carrera/S
+  careerCurriculumName String                @db.VarChar(255)
+  user                 User?                 @relation(fields: [userId], references: [id])
+  userId               Int?                  @unique
+  IndividualAgreements IndividualAgreement[]
+  createtAd            DateTime              @default(now()) @db.Timestamp(6)
+  update               DateTime              @updatedAt @db.Timestamp(6)
 }
 
+// model Carrer {
+//   id                           Int      @id @default(autoincrement())
+//   careerCurriculumName         String   @db.VarChar(255) // nombre de la carrera
+//   careerCurriculumPlan         String   @db.VarChar(255) // Plan de la carrera
+//   careerCurriculumStartingDate String   @db.VarChar(255) //inicio de cursada de la carrera
+//   careerCurriculumCredits      String   @db.VarChar(255) // nombre de la carrera
+//   isCareerCourseActive         Boolean  @default(false) //regular
+//   student                      Student? @relation(fields: [studentId], references: [id])
+//   studentId                    Int?
+//   createtAd                    DateTime @default(now()) @db.Timestamp(6)
+//   update                       DateTime @updatedAt @db.Timestamp(6)
+// }
+
 model Organization {
-  id           Int    @id @default(autoincrement())
-  cuit         String @unique @db.VarChar(255)
-  bussinesName String @unique @db.VarChar(255)
-  fantasyName  String @unique @db.VarChar(255)
+  id                  Int                   @id @default(autoincrement())
+  cuit                String                @unique @db.VarChar(255)
+  bussinesName        String                @db.VarChar(255)
+  fantasyName         String                @db.VarChar(255)
+  contactName         String                @db.VarChar(255)
+  email               String                @db.VarChar(255)
+  telephone           String                @db.VarChar(255)
+  workField           String                @db.VarChar(255)
+  user                User                  @relation(fields: [userId], references: [id])
+  userId              Int                   @unique
+  createtAd           DateTime              @default(now()) @db.Timestamp(6)
+  update              DateTime              @updatedAt @db.Timestamp(6)
+  FrameworkAgreement  FrameworkAgreement[]
+  IndividualAgreement IndividualAgreement[]
 }
 
 model Company {
-  id   Int    @id @default(autoincrement())
-  cuit String @unique @db.VarChar(255)
+  id                  Int                   @id @default(autoincrement())
+  cuit                String                @unique @db.VarChar(255)
+  contactName         String                @db.VarChar(255)
+  email               String                @db.VarChar(255)
+  telephone           String                @db.VarChar(255)
+  workField           String                @db.VarChar(255)
+  user                User                  @relation(fields: [userId], references: [id])
+  userId              Int                   @unique
+  createtAd           DateTime              @default(now()) @db.Timestamp(6)
+  update              DateTime              @updatedAt @db.Timestamp(6)
+  FrameworkAgreement  FrameworkAgreement[]
+  IndividualAgreement IndividualAgreement[]
 }
 
 model FrameworkAgreement {
-  id               Int     @id @default(autoincrement())
-  resolutionNumber String  @unique @db.VarChar(255)
-  hasDue           Boolean @default(false)
+  id               Int          @id @default(autoincrement())
+  recordNumber     String       @unique @db.VarChar(255)
+  resolutionNumber String       @unique @db.VarChar(255)
+  approvalDate     String       @db.VarChar(255)
+  endDate          String       @db.VarChar(255)
+  isSigned         Boolean      @default(false)
+  isCompany        Boolean      @default(false)
+  company          Company      @relation(fields: [companyId], references: [id])
+  companyId        Int
+  isOrganization   Boolean      @default(false)
+  organization     Organization @relation(fields: [organizationId], references: [id])
+  organizationId   Int
+  createtAd        DateTime     @default(now()) @db.Timestamp(6)
+  update           DateTime     @updatedAt @db.Timestamp(6)
+  Intership        Intership[]
 }
 
 model IndividualAgreement {
-  id               Int     @id @default(autoincrement())
-  resolutionNumber String  @unique @db.VarChar(255)
-  hasDue           Boolean @default(false)
+  id               Int          @id @default(autoincrement())
+  recordNumber     String       @unique @db.VarChar(255)
+  resolutionNumber String       @unique @db.VarChar(255)
+  referenceNumber  String       @unique @db.VarChar(255)
+  approvalDate     String       @db.VarChar(255)
+  endDate          String       @db.VarChar(255)
+  company          Company      @relation(fields: [companyId], references: [id])
+  companyId        Int
+  organization     Organization @relation(fields: [organizationId], references: [id])
+  organizationId   Int
+  student          Student      @relation(fields: [studentId], references: [id])
+  studentId        Int
+  hasDue           Boolean      @default(false)
+  createtAd        DateTime     @default(now()) @db.Timestamp(6)
+  update           DateTime     @updatedAt @db.Timestamp(6)
+  Intership        Intership?
+}
+
+model Intership {
+  id                    Int                  @id @default(autoincrement())
+  startingDate          String               @db.VarChar(255)
+  endingDate            String               @db.VarChar(255)
+  totalAmount           String               @db.VarChar(255)
+  monthlyAmount         String               @db.VarChar(255)
+  guidingTeacher        String               @db.VarChar(255)
+  guidingExternal       String               @db.VarChar(255)
+  receiptNumber         String               @db.VarChar(255)
+  billingStatus         String               @db.VarChar(255)
+  individualAgreement   IndividualAgreement  @relation(fields: [individualAgreementId], references: [id])
+  individualAgreementId Int                  @unique
+  frameworkAgreement    FrameworkAgreement   @relation(fields: [frameworkAgreementId], references: [id])
+  frameworkAgreementId  Int
+  IntershipEvaluation   IntershipEvaluation?
+}
+
+model IntershipEvaluation {
+  id          Int       @id @default(autoincrement())
+  score       String    @db.VarChar(255)
+  comments    String    @db.VarChar(255)
+  intership   Intership @relation(fields: [intershipId], references: [id])
+  intershipId Int       @unique
 }
