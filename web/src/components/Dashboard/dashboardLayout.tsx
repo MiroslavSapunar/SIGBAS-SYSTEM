@@ -1,4 +1,4 @@
-
+import { signOut } from "next-auth/react";
 interface Props {
     children: React.ReactNode;
 }
@@ -80,7 +80,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) =>
                                             <path
                                                 fill-rule="evenodd"
                                                 d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                clip-rule="evenodd"
+                                                clipRule="evenodd"
                                             />
                                         </svg>
                                     </span>
@@ -210,7 +210,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) =>
                                             <path
                                                 fill-rule="evenodd"
                                                 d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                clip-rule="evenodd"
+                                                clipRule="evenodd"
                                             />
                                         </svg>
                                     </span>
@@ -260,8 +260,12 @@ const DashboardLayout: React.FC<Props> = ({ children }) =>
 
                                         <span className="text-sm font-medium"> Security </span>
                                     </a>
+                                    <button
+                                        className="flex items-center gap-2 rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 text-sm font-medium" onClick={() => signOut()}>
+                                        <span>Log out</span>
+                                    </button>
 
-                                    <form action="/logout">
+                                    {/* <form action="/logout">
                                         <button
                                             type="submit"
                                             className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
@@ -283,7 +287,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) =>
 
                                             <span className="text-sm font-medium"> Logout </span>
                                         </button>
-                                    </form>
+                                    </form> */}
                                 </nav>
                             </details>
                         </nav>
