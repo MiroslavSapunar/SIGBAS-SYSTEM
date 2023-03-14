@@ -1,6 +1,5 @@
 import Image from 'next/image'
-
-import LoginForm from '@/components/Landing/loginForm'
+import Link from 'next/link'
 
 const Landing: React.FC = () =>
     <>
@@ -30,7 +29,15 @@ const Landing: React.FC = () =>
                         <p className="mt-1 text-gray-800">
                             Facultad de Ingeniería de la Universidad de Buenos Aires
                         </p>
-                        <LoginForm />
+                        <div className="mt-6 mb-0 space-y-4 rounded-lg p-8 shadow-2xl">
+                            <Link href="/signin">
+                                <button
+                                    className="block w-1/4 rounded-lg bg-primary px-5 py-3 text-sm font-medium text-white  hover:bg-white hover:text-primary hover:border-primary border-transparent border-2 "
+                                >
+                                    Ingreso con credenciales
+                                </button>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -39,3 +46,4 @@ const Landing: React.FC = () =>
     </>
 
 export default Landing
+

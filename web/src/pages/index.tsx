@@ -1,9 +1,10 @@
-import LandingContent from '@/components/Landing/landing'
+import Landing from "@/components/Landing/landing"
 
 const Home: React.FC = () =>
   <>
-    <LandingContent />
+    <Landing />
   </>
 
 export default Home
+
 
