@@ -40,6 +40,7 @@ model Session {
 model User {
   id            String        @id @default(cuid())
   name          String?
+  pass          String?
   email         String?       @unique
   emailVerified DateTime?
   image         String?
@@ -76,6 +77,8 @@ model VerificationToken {
 
 model Student {
   id                   String                @id @default(cuid())
+  cuit                 String                @db.VarChar(255)
+  address                 String                @db.VarChar(255)
   name                 String                @db.VarChar(255)
   surname              String                @db.VarChar(255)
   gender               String                @db.VarChar(255)
@@ -91,6 +94,10 @@ model Student {
   IndividualAgreements IndividualAgreement[]
   createtAd            DateTime              @default(now()) @db.Timestamp(6)
   update               DateTime              @updatedAt @db.Timestamp(6)
+  // psantias previas
+  // bolsa de trabajo
+  // CV
+  // Becas
 }
 
 // model Carrer {
@@ -113,6 +120,8 @@ model Organization {
   fantasyName         String                @db.VarChar(255)
   contactName         String                @db.VarChar(255)
   email               String                @db.VarChar(255)
+  // localidad
+  // email de representante legal
   telephone           String                @db.VarChar(255)
   workField           String                @db.VarChar(255)
   user                User                  @relation(fields: [userId], references: [id])
@@ -130,6 +139,7 @@ model Company {
   email               String                @db.VarChar(255)
   telephone           String                @db.VarChar(255)
   workField           String                @db.VarChar(255)
+  tipodeempresa           String                @db.VarChar(255)
   user                User                  @relation(fields: [userId], references: [id])
   userId              String                @unique
   createtAd           DateTime              @default(now()) @db.Timestamp(6)
