@@ -1,4 +1,5 @@
 import { getSession } from 'next-auth/react';
+import { GetServerSidePropsContext } from 'next';
 
 import DashboardLayout from "@/components/Dashboard/dashboardLayout"
 import DashboardLanding from "@/components/Dashboard/dasboardLanding"
@@ -12,12 +13,9 @@ export default function dashboardLayout() {
     )
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
     const { req } = context;
     const session = await getSession({ req });
-
-    console.log("session")
-    console.log(session)
 
     if (!session) {
         return {
