@@ -1,175 +1,152 @@
 // import { providers, signIn, getSession, csrfToken } from "next-auth/client
 
 import { signIn, getSession, getProviders, getCsrfToken } from "next-auth/react"
-import { FcGoogle } from 'react-icons/fc'
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { FormEventHandler } from "react";
 
-function signin({ providers }) {
+import { useState } from "react"
+import { FcGoogle } from 'react-icons/fc'
+import { IoCloseSharp } from 'react-icons/io5'
+import { MdOutlineAlternateEmail, MdOutlinePassword, MdInfo } from 'react-icons/md'
+import router from "next/router";
+interface FormData {
+    email: String,
+    password: String
+}
+
+export default function SignIn({ providers, csrfToken }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+    const [form, setForm] = useState<FormData>({ email: "", password: "" })
+    const [error, setError] = useState(false)
+
+    const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+        e.preventDefault();
+        setError(false)
+
+        const res = await signIn("credentials", {
+            email: form.email,
+            password: form.password,
+            redirect: false
+        });
+
+        console.log(res)
+        if (res?.error) {
+            setError(true)
+        } else {
+            router.push('/dashboard');
+        }
+    };
+
     return (
         <>
-            {/* <div className="mt-auto min-h-screen content-center mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-                {Object.values(providers).map((provider) => {
-                    return (
-                        <div key={provider.name}>
-                            <button
-                                className="group flex items-center justify-between mx-auto gap-4 text-primary rounded-lg border border-primary hover:bg-primary hover:text-white px-5 py-3 transition-colors hover:bg-transparent focus:outline-none focus:ring"
-                                onClick={() => signIn(provider.id)}>
-
-                                <span>
-                                    Estudiantes con email FIUBA
-                                </span>
-                                <span
-                                    className="flex-shrink-0 rounded-full  p-2"
-                                >
-                                    <FcGoogle className="h-5 w-5 text-gray-400" />
-                                </span>
-                            </button>
-                        </div>
-                    );
-                })}
-
-            </div> */}
-            {/* <!--
-            This component uses @tailwindcss/forms
-
-            yarn add @tailwindcss/forms
-            npm install @tailwindcss/forms
-
-            plugins: [require('@tailwindcss/forms')]
---> */}
             <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 flex place-items-center min-h-screen">
                 <div className="mx-auto max-w-lg">
-                    {/* <h1 className="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
-                        Get started today
-                    </h1>
-
-                    <p className="mx-auto mt-4 max-w-md text-center text-gray-500">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati sunt
-                        dolores deleniti inventore quaerat mollitia?
-                    </p> */}
-
                     <form
-                        action=""
-                        className="mt-6 mb-0 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
-                    >
+                        onSubmit={handleSubmit}
+                        className="mt-6 mb-0 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8">
                         <p className="text-center text-lg font-medium">Ingreso Empresas/Organismos</p>
 
-                        <div>
-                            <label form="email" className="sr-only">Email</label>
+                        <label className="sr-only">
+                            Usuario
+                        </label>
+                        <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+                        <div className="relative">
+                            <input
+                                type="email"
+                                className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                                placeholder="Usuario"
+                                name="email"
+                                onChange={(e) => {
+                                    setForm({ ...form, email: e.target.value })
+                                }}
+                                required />
+                            <span
+                                className="absolute inset-y-0 right-0 grid place-content-center px-4"
+                            >
+                                <MdOutlineAlternateEmail />
+                            </span>
 
-                            <div className="relative">
-                                <input
-                                    type="email"
-                                    className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
-                                    placeholder="Enter email"
-                                />
 
-                                <span
-                                    className="absolute inset-y-0 right-0 grid place-content-center px-4"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-4 w-4 text-gray-400"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                                        />
-                                    </svg>
-                                </span>
-                            </div>
                         </div>
-
-                        <div>
-                            <label form="password" className="sr-only">Password</label>
-
-                            <div className="relative">
-                                <input
-                                    type="password"
-                                    className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
-                                    placeholder="Enter password"
-                                />
-
-                                <span
-                                    className="absolute inset-y-0 right-0 grid place-content-center px-4"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-4 w-4 text-gray-400"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                        />
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                        />
-                                    </svg>
-                                </span>
-                            </div>
+                        <label className="sr-only">Contraseña</label>
+                        <div className="relative">
+                            <input type="password"
+                                className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                                placeholder="Contraseña"
+                                onChange={(e) => {
+                                    setForm({ ...form, password: e.target.value })
+                                }}
+                                required
+                            />
+                            <span
+                                className="absolute inset-y-0 right-0 grid place-content-center px-4"
+                            >
+                                <MdOutlinePassword />
+                            </span>
                         </div>
-
                         <button
                             type="submit"
                             className="block w-full rounded-lg bg-primary px-5 py-3 text-sm font-medium text-white"
-                        >
-                            Sign in
-                        </button>
+                        >Ingresar</button>
+
+                        {error ?
+                            <div id="alert-2" className="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                                <MdInfo />
+                                <span className="sr-only">Info</span>
+                                <div className="ml-3 text-sm font-medium">
+                                    Credenciales incorrectas. Intente nuevamente
+                                </div>
+                                <button onClick={(e) => {
+                                    e.preventDefault
+                                    setError(false)
+                                }}
+                                    type="button"
+                                    className="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-2" aria-label="Close">
+                                    <span className="sr-only">X</span>
+                                    <IoCloseSharp />
+                                </button>
+                            </div> : <></>}
 
                         <p className="text-center text-sm text-gray-500">
                             Para tramitar un usuario como empresa/organismo:
-                            <a className="text-bold" href="mailto:inslab@fi.uba.ar"> Áca </a>
+                            <a className="text-bold text-lg" href="mailto:inslab@fi.uba.ar"> inslab@fi.uba.ar </a>
                         </p>
 
-                        {Object.values(providers).map((provider) => {
-                            return (
-                                <div key={provider.name}>
-                                    <button
-                                        className="group flex w-full items-center justify-center mx-auto gap-4 text-primary rounded-lg border border-primary  px-5 py-3 transition-colors focus:outline-none focus:ring hover:text-white hover:bg-primary"
-                                        onClick={(e) => {
+                        {providers &&
+                            Object.values(providers).map((provider) => {
+                                return (
+                                    (provider.name != 'Credentials' ?
+                                        <div key={provider.name}>
+                                            <button
+                                                className="group flex w-full items-center justify-center mx-auto gap-4 text-primary rounded-lg border border-primary  px-5 py-3 transition-colors focus:outline-none focus:ring hover:text-white hover:bg-primary"
+                                                onClick={(e) => {
+                                                    e.preventDefault()
+                                                    signIn(provider.id)
+                                                }
+                                                }
+                                            >
+                                                <span>
+                                                    Estudiantes con mail FIUBA
+                                                </span>
+                                                <span
+                                                    className="flex-shrink-0 rounded-full  p-2"
+                                                >
+                                                    <FcGoogle className="h-5 w-5 text-gray-400" />
+                                                </span>
+                                            </button>
+                                        </div>
+                                        : <></>)
+                                );
+                            })}
 
-                                            e.preventDefault()
-                                            signIn(provider.id)
-                                        }
-                                        }
-                                    >
-
-                                        <span>
-                                            Estudiantes con mail FIUBA
-                                        </span>
-                                        <span
-                                            className="flex-shrink-0 rounded-full  p-2"
-                                        >
-                                            <FcGoogle className="h-5 w-5 text-gray-400" />
-                                        </span>
-                                    </button>
-                                </div>
-                            );
-                        })}
                     </form>
-                </div>
+                </div >
             </div >
-
-
         </>
     )
 }
 
-export default signin;
+export async function getServerSideProps(context: GetServerSidePropsContext) {
 
-export async function getServerSideProps(context) {
     const { req } = context;
     const session = await getSession({ req });
 
@@ -181,7 +158,7 @@ export async function getServerSideProps(context) {
 
     return {
         props: {
-            providers: await getProviders(context),
+            providers: await getProviders(),
             csrfToken: await getCsrfToken(context),
         },
     };
