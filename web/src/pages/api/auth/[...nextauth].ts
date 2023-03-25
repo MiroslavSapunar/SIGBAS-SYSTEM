@@ -30,10 +30,8 @@ const authOptions: NextAuthOptions = {
                     throw new Error('Credenciales incorrectas. Intente nuevamente.')
                 }
 
-
                 return user
             }
-
         })
     ],
     pages: {
