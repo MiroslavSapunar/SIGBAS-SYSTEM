@@ -38,17 +38,26 @@ model Session {
 }
 
 model User {
-  id            String        @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
   pass          String?
-  email         String?       @unique
+  role          UserRole  @default(Student)
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
   Student       Student?
-  Organization  Organization?
-  Company       Company?
+  Entity        Entity?
+}
+
+enum UserRole {
+  Admin
+  InternShip
+  ScholarShip
+  OutReach
+  Student
+  Entity
 }
 
 model VerificationToken {
@@ -78,7 +87,7 @@ model VerificationToken {
 model Student {
   id                   String                @id @default(cuid())
   cuit                 String                @db.VarChar(255)
-  address                 String                @db.VarChar(255)
+  address              String                @db.VarChar(255)
   name                 String                @db.VarChar(255)
   surname              String                @db.VarChar(255)
   gender               String                @db.VarChar(255)
@@ -113,13 +122,14 @@ model Student {
 //   update                       DateTime @updatedAt @db.Timestamp(6)
 // }
 
-model Organization {
+model Entity {
   id                  String                @id @default(cuid())
   cuit                String                @unique @db.VarChar(255)
   bussinesName        String                @db.VarChar(255)
   fantasyName         String                @db.VarChar(255)
   contactName         String                @db.VarChar(255)
   email               String                @db.VarChar(255)
+  role                EntityRole            @default(Company)
   // localidad
   // email de representante legal
   telephone           String                @db.VarChar(255)
@@ -132,80 +142,85 @@ model Organization {
   IndividualAgreement IndividualAgreement[]
 }
 
-model Company {
-  id                  String                @id @default(cuid())
-  cuit                String                @unique @db.VarChar(255)
-  contactName         String                @db.VarChar(255)
-  email               String                @db.VarChar(255)
-  telephone           String                @db.VarChar(255)
-  workField           String                @db.VarChar(255)
-  tipodeempresa           String                @db.VarChar(255)
-  user                User                  @relation(fields: [userId], references: [id])
-  userId              String                @unique
-  createtAd           DateTime              @default(now()) @db.Timestamp(6)
-  update              DateTime              @updatedAt @db.Timestamp(6)
-  FrameworkAgreement  FrameworkAgreement[]
-  IndividualAgreement IndividualAgreement[]
+enum EntityRole {
+  Company
+  Organization
 }
 
+// model Company {
+//   id                  String                @id @default(cuid())
+//   cuit                String                @unique @db.VarChar(255)
+//   contactName         String                @db.VarChar(255)
+//   email               String                @db.VarChar(255)
+//   telephone           String                @db.VarChar(255)
+//   workField           String                @db.VarChar(255)
+//   tipodeempresa           String                @db.VarChar(255)
+//   user                User                  @relation(fields: [userId], references: [id])
+//   userId              String                @unique
+//   createtAd           DateTime              @default(now()) @db.Timestamp(6)
+//   update              DateTime              @updatedAt @db.Timestamp(6)
+//   FrameworkAgreement  FrameworkAgreement[]
+//   IndividualAgreement IndividualAgreement[]
+// }
+
 model FrameworkAgreement {
-  id               String       @id @default(cuid())
-  recordNumber     String       @unique @db.VarChar(255)
-  resolutionNumber String       @unique @db.VarChar(255)
-  approvalDate     String       @db.VarChar(255)
-  endDate          String       @db.VarChar(255)
-  isSigned         Boolean      @default(false)
-  isCompany        Boolean      @default(false)
-  company          Company      @relation(fields: [companyId], references: [id])
+  id               String      @id @default(cuid())
+  recordNumber     String      @unique @db.VarChar(255)
+  resolutionNumber String      @unique @db.VarChar(255)
+  approvalDate     String      @db.VarChar(255)
+  endDate          String      @db.VarChar(255)
+  isSigned         Boolean     @default(false)
+  isCompany        Boolean     @default(false)
+  entity           Entity      @relation(fields: [companyId], references: [id])
   companyId        String
-  isOrganization   Boolean      @default(false)
-  organization     Organization @relation(fields: [organizationId], references: [id])
-  organizationId   String
-  createtAd        DateTime     @default(now()) @db.Timestamp(6)
-  update           DateTime     @updatedAt @db.Timestamp(6)
+  isOrganization   Boolean     @default(false)
+  // organization     Organization @relation(fields: [organizationId], references: [id])
+  // organizationId   String
+  createtAd        DateTime    @default(now()) @db.Timestamp(6)
+  update           DateTime    @updatedAt @db.Timestamp(6)
   Intership        Intership[]
 }
 
 model IndividualAgreement {
-  id               String       @id @default(cuid())
-  recordNumber     String       @unique @db.VarChar(255)
-  resolutionNumber String       @unique @db.VarChar(255)
-  referenceNumber  String       @unique @db.VarChar(255)
-  approvalDate     String       @db.VarChar(255)
-  endDate          String       @db.VarChar(255)
-  company          Company      @relation(fields: [companyId], references: [id])
+  id               String     @id @default(cuid())
+  recordNumber     String     @unique @db.VarChar(255)
+  resolutionNumber String     @unique @db.VarChar(255)
+  referenceNumber  String     @unique @db.VarChar(255)
+  approvalDate     String     @db.VarChar(255)
+  endDate          String     @db.VarChar(255)
+  entity           Entity     @relation(fields: [companyId], references: [id])
   companyId        String
-  organization     Organization @relation(fields: [organizationId], references: [id])
-  organizationId   String
-  student          Student      @relation(fields: [studentId], references: [id])
+  // organization     Organization @relation(fields: [organizationId], references: [id])
+  // organizationId   String
+  student          Student    @relation(fields: [studentId], references: [id])
   studentId        String
-  hasDue           Boolean      @default(false)
-  createtAd        DateTime     @default(now()) @db.Timestamp(6)
-  update           DateTime     @updatedAt @db.Timestamp(6)
+  hasDue           Boolean    @default(false)
+  createtAd        DateTime   @default(now()) @db.Timestamp(6)
+  update           DateTime   @updatedAt @db.Timestamp(6)
   Intership        Intership?
 }
 
 model Intership {
-  id                    String               @id @default(cuid())
-  startingDate          String               @db.VarChar(255)
-  endingDate            String               @db.VarChar(255)
-  totalAmount           String               @db.VarChar(255)
-  monthlyAmount         String               @db.VarChar(255)
-  guidingTeacher        String               @db.VarChar(255)
-  guidingExternal       String               @db.VarChar(255)
-  receiptNumber         String               @db.VarChar(255)
-  billingStatus         String               @db.VarChar(255)
-  individualAgreement   IndividualAgreement  @relation(fields: [individualAgreementId], references: [id])
-  individualAgreementId String               @unique
-  frameworkAgreement    FrameworkAgreement   @relation(fields: [frameworkAgreementId], references: [id])
+  id                    String              @id @default(cuid())
+  startingDate          String              @db.VarChar(255)
+  endingDate            String              @db.VarChar(255)
+  totalAmount           String              @db.VarChar(255)
+  monthlyAmount         String              @db.VarChar(255)
+  guidingTeacher        String              @db.VarChar(255)
+  guidingExternal       String              @db.VarChar(255)
+  receiptNumber         String              @db.VarChar(255)
+  billingStatus         String              @db.VarChar(255)
+  individualAgreement   IndividualAgreement @relation(fields: [individualAgreementId], references: [id])
+  individualAgreementId String              @unique
+  frameworkAgreement    FrameworkAgreement  @relation(fields: [frameworkAgreementId], references: [id])
   frameworkAgreementId  String
-  IntershipEvaluation   IntershipEvaluation?
+  // IntershipEvaluation   IntershipEvaluation?
 }
 
-model IntershipEvaluation {
-  id          String    @id @default(cuid())
-  score       String    @db.VarChar(255)
-  comments    String    @db.VarChar(255)
-  intership   Intership @relation(fields: [intershipId], references: [id])
-  intershipId String    @unique
-}
+// model IntershipEvaluation {
+//   id          String    @id @default(cuid())
+//   score       String    @db.VarChar(255)
+//   comments    String    @db.VarChar(255)
+//   intership   Intership @relation(fields: [intershipId], references: [id])
+//   intershipId String    @unique
+// }
