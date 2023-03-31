@@ -89,8 +89,8 @@ export default function SignIn({ providers, csrfToken }: InferGetServerSideProps
                         >Ingresar</button>
 
                         {error ?
-                            <div id="alert-2" className="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                                <MdInfo />
+                            <div id="alert-2" className="flex p-4 mb-4  border-red-600 border-2 rounded-lg  bg-white text-red-600" role="alert">
+                                <MdInfo/>
                                 <span className="sr-only">Info</span>
                                 <div className="ml-3 text-sm font-medium">
                                     Credenciales incorrectas. Intente nuevamente
@@ -100,7 +100,7 @@ export default function SignIn({ providers, csrfToken }: InferGetServerSideProps
                                     setError(false)
                                 }}
                                     type="button"
-                                    className="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-2" aria-label="Close">
+                                    className="ml-auto -mx-1.5 -my-1.5 bg-white text-red-600 rounded-lg focus:ring-2 focus:ring-red-600 p-2 hover:bg-red-300 inline-flex h-8 w-8 " data-dismiss-target="#alert-2" aria-label="Close">
                                     <span className="sr-only">X</span>
                                     <IoCloseSharp />
                                 </button>
@@ -147,14 +147,14 @@ export default function SignIn({ providers, csrfToken }: InferGetServerSideProps
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 
-    const { req } = context;
-    const session = await getSession({ req });
+    // const { req } = context;
+    // const session = await getSession({ req });
 
-    if (session) {
-        return {
-            redirect: { destination: "/dashboard" },
-        };
-    }
+    // if (session) {
+    //     return {
+    //         redirect: { destination: "/dashboard" },
+    //     };
+    // }
 
     return {
         props: {
